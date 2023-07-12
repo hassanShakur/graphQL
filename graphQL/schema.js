@@ -1,6 +1,7 @@
 const { default: axios } = require('axios');
 const graphql = require('graphql');
-const _ = require('lodash');
+const userURL = 'http://localhost:8000/users/';
+const companyURL = 'http://localhost:8000/companies/';
 
 const {
   GraphQLObjectType,
@@ -10,6 +11,16 @@ const {
   GraphQLBoolean,
 } = graphql;
 
+const CompanyType = new GraphQLObjectType({
+  name: 'Company',
+  description: 'A company object model',
+  fields: {
+    id: { type: GraphQLString },
+    name: { type: GraphQLString },
+    description: { type: GraphQLString },
+  },
+});
+
 const UserType = new GraphQLObjectType({
   name: 'User',
   description: 'A user object model',
@@ -18,6 +29,15 @@ const UserType = new GraphQLObjectType({
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
     isNice: { type: GraphQLBoolean },
+    company: {
+      type: CompanyType,
+      resolve: async (source, _) => {
+        const res = await axios.get(
+          `${companyURL}${source.companyId}`
+        );
+        return res.data.company;
+      },
+    },
   },
 });
 
@@ -29,8 +49,10 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLString } },
       // src == parentValue
       //   resolve: (source, args) => _.find(users, { id: args.id }),
-      resolve: (source, args) =>
-        axios.get(`http://localhost:8000/users/${args.id}`).then((res) => res.data.user),
+      resolve: async (_, args) => {
+        const res = await axios.get(`${userURL}${args.id}`);
+        return res.data.user;
+      },
     },
   },
 });

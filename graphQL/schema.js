@@ -9,10 +9,7 @@ const {
   GraphQLBoolean,
 } = graphql;
 
-const users = [
-  { id: '1', name: 'Dragon', age: 18, isNice: true },
-  { id: '2', name: 'Chen', age: 19, isNice: true },
-];
+
 
 const UserType = new GraphQLObjectType({
   name: 'User',

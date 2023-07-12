@@ -1,3 +1,4 @@
+const { default: axios } = require('axios');
 const graphql = require('graphql');
 const _ = require('lodash');
 
@@ -8,8 +9,6 @@ const {
   GraphQLInt,
   GraphQLBoolean,
 } = graphql;
-
-
 
 const UserType = new GraphQLObjectType({
   name: 'User',
@@ -29,7 +28,9 @@ const RootQuery = new GraphQLObjectType({
       type: UserType,
       args: { id: { type: GraphQLString } },
       // src == parentValue
-      resolve: (source, args) => _.find(users, { id: args.id }),
+      //   resolve: (source, args) => _.find(users, { id: args.id }),
+      resolve: (source, args) =>
+        axios.get(`http://localhost:8000/users/${args.id}`).then((res) => res.data.user),
     },
   },
 });

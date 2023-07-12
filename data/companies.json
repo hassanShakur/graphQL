@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1",
+    "name": "Amazon",
+    "description": "Amazon web services."
+  },
+  {
+    "id": "2",
+    "name": "Google",
+    "description": "Google product services."
+  },
+  {
+    "id": "3",
+    "name": "Netflix",
+    "description": "Enjoy movies and series."
+  }
+]

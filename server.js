@@ -1,29 +1,26 @@
-const express = require('express');
-const expressGraphQL = require('express-graphql');
-const schema = require('./graphQL/schema');
-const router = require('./userRouter');
-const morgan = require('morgan');
+const app = require('./app');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const morgan = require('morgan');
 
-const app = express();
-
-dotenv.config({ path: 'config.env' });
+dotenv.config({ path: './config.env' });
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use(
-  '/graphql',
-  expressGraphQL.graphqlHTTP({
-    graphiql: true,
-    schema,
+const DB = process.env.DB_LOCAL;
+
+mongoose
+  .connect(DB)
+  .then(() => {
+    console.log('DB connection successful...');
   })
-);
+  .catch((err) => {
+    console.log(err);
+  });
 
-app.use('/users', router);
-
-const port = 8000;
+const port = process.env.PORT;
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}...`);

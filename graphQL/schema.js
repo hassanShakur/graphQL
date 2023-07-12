@@ -6,6 +6,7 @@ const companyURL = 'http://localhost:8000/companies/';
 const {
   GraphQLObjectType,
   GraphQLSchema,
+  GraphQLList,
   GraphQLString,
   GraphQLInt,
   GraphQLBoolean,
@@ -14,17 +15,26 @@ const {
 const CompanyType = new GraphQLObjectType({
   name: 'Company',
   description: 'A company object model',
-  fields: {
+  fields: () => ({
     id: { type: GraphQLString },
     name: { type: GraphQLString },
     description: { type: GraphQLString },
-  },
+    users: {
+      type: new GraphQLList(UserType),
+      resolve: async (source, _) => {
+        const res = await axios.get(
+          `${companyURL}${source.id}/users`
+        );
+        return res.data.users;
+      },
+    },
+  }),
 });
 
 const UserType = new GraphQLObjectType({
   name: 'User',
   description: 'A user object model',
-  fields: {
+  fields: () => ({
     id: { type: GraphQLString },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
@@ -38,7 +48,7 @@ const UserType = new GraphQLObjectType({
         return res.data.company;
       },
     },
-  },
+  }),
 });
 
 const RootQuery = new GraphQLObjectType({
@@ -47,11 +57,17 @@ const RootQuery = new GraphQLObjectType({
     user: {
       type: UserType,
       args: { id: { type: GraphQLString } },
-      // src == parentValue
-      //   resolve: (source, args) => _.find(users, { id: args.id }),
       resolve: async (_, args) => {
         const res = await axios.get(`${userURL}${args.id}`);
         return res.data.user;
+      },
+    },
+    company: {
+      type: CompanyType,
+      args: { id: { type: GraphQLString } },
+      resolve: async (_, args) => {
+        const res = await axios.get(`${companyURL}${args.id}`);
+        return res.data.company;
       },
     },
   },

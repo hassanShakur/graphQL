@@ -6,11 +6,16 @@
   },
   {
     "id": "2",
+    "name": "Apple",
+    "description": "Apple services."
+  },
+  {
+    "id": "3",
     "name": "Google",
     "description": "Google product services."
   },
   {
-    "id": "3",
+    "id": "4",
     "name": "Netflix",
     "description": "Enjoy movies and series."
   }

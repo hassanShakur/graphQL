@@ -7,8 +7,8 @@ const Company = require('./../models/companyModel');
 
 dotenv.config({ path: `${__dirname}/../config.env` });
 
-const userPath = path.resolve(__dirname, 'users.json');
-const companyPath = path.resolve(__dirname, 'companies.json');
+const userPath = path.resolve(__dirname, 'json', 'users.json');
+const companyPath = path.resolve(__dirname, 'json', 'companies.json');
 
 const users = JSON.parse(
   fs.readFileSync(userPath, {

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   id: {
     type: String,
-    required: [true, 'Please provide user id!'],
+    required: false,
     unique: [true, 'A user with the id exists!'],
   },
   name: {
@@ -16,12 +16,16 @@ const userSchema = new mongoose.Schema({
   },
   isNice: {
     type: Boolean,
-    required: [true, 'Please provide user niceness!'],
+    required: false,
   },
   companyId: {
     type: String,
     required: [true, 'Please provide user company id!'],
   },
+});
+
+userSchema.pre('save', function () {
+  this.id = this._id.toString();
 });
 
 const User = mongoose.model('User', userSchema);

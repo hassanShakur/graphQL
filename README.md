@@ -146,3 +146,111 @@ const RootQuery = new GraphQLObjectType({
 
 In this case, the `root query` can query either a `user` or `company` & from each model, you can access the other. In order to avoid `js use b4 declaration` issue in the modelTypes, wrap the `fields` of each in a function exhibiting closure where by the time the function is called, the entire file has been parsed.
 Also when a `resolve` is to return an array of results, the resolved type should be wrapped in the `GraphQLList` class instance like `type: new GraphQLList(ModelType)`
+
+## Queries
+
+1 level:
+
+```js
+{
+  user(id: "1") {
+    name,
+    age
+  }
+}
+```
+
+2 levels:
+
+```js
+{
+  company(id: "4") {
+    name,
+    users {
+      name,
+      age
+    }
+  }
+}
+```
+
+### Named query
+
+```js
+query queryName {
+  user(id: "4") {
+    name
+  }
+}
+```
+
+### Fragments
+
+This is in a case where more that 1 query is made and the properties fetched from the queries are similar:
+
+```js
+{
+  person1: user(id: "1") {
+    ...userDetails
+  }
+  person2: user(id: "2") {
+    ...userDetails
+  }
+}
+
+// fragment fragmentName on Model
+fragment userDetails on User {
+  name
+  age
+  company {
+    name
+  }
+}
+```
+
+### Mutations
+
+These are like post requests as I define in the next section:
+
+```js
+mutation {
+  createUser(name: "Lilly", age: 21) {
+    name
+    company {
+      name
+    }
+  }
+}
+```
+
+## Mutations
+
+They manipulate the data using `crud`. Example to create a user:
+
+```js
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    createUser: {
+      type: UserType,
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        age: { type: new GraphQLNonNull(GraphQLInt) },
+        companyId: { type: new GraphQLNonNull(GraphQLString) },
+        isNice: { type: GraphQLBoolean },
+      },
+      resolve: async (_, { name, age, companyId }) => {
+        const data = { name, age, companyId };
+        const res = await axios.post(userURL, data);
+        return res.data.user;
+      },
+    },
+  },
+});
+
+// Then add to schema
+const schema = new GraphQLSchema({
+  query: RootQuery,
+  mutation: Mutation,
+});
+```

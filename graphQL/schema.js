@@ -1,4 +1,4 @@
-const { default: axios } = require('axios');
+const axios = require('axios');
 const graphql = require('graphql');
 const userURL = 'http://localhost:8000/users/';
 const companyURL = 'http://localhost:8000/companies/';
@@ -69,6 +69,28 @@ const Mutation = new GraphQLObjectType({
         return res.data.user;
       },
     },
+    deleteUser: {
+      type: UserType,
+      args: { id: { type: new GraphQLNonNull(GraphQLString) } },
+      resolve: async (_, { id }) => {
+        const res = await axios.delete(`${userURL}${id}`);
+        return res.data;
+      },
+    },
+    updateUser: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt },
+        companyId: { type: GraphQLString },
+        isNice: { type: GraphQLBoolean },
+      },
+      resolve: async (_, args) => {
+        const res = await axios.patch(`${userURL}${args.id}`, args);
+        return res.data.user;
+      },
+    },
   },
 });
 
@@ -83,12 +105,28 @@ const RootQuery = new GraphQLObjectType({
         return res.data.user;
       },
     },
+    users: {
+      type: new GraphQLList(UserType),
+      args: {},
+      resolve: async () => {
+        const res = await axios.get(userURL);
+        return res.data.users;
+      },
+    },
     company: {
       type: CompanyType,
       args: { id: { type: GraphQLString } },
       resolve: async (_, args) => {
         const res = await axios.get(`${companyURL}${args.id}`);
         return res.data.company;
+      },
+    },
+    companies: {
+      type: new GraphQLList(CompanyType),
+      args: {},
+      resolve: async () => {
+        const res = await axios.get(companyURL);
+        return res.data.companies;
       },
     },
   },

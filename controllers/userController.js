@@ -25,6 +25,26 @@ module.exports.createUser = async (req, res) => {
   });
 };
 
+module.exports.updateUser = async (req, res) => {
+  const { id } = req.body;
+
+  const user = await User.findOneAndUpdate({ id }, req.body);
+
+  res.status(202).json({
+    status: 'Success',
+    user,
+  });
+};
+
+module.exports.deleteUser = async (req, res) => {
+  const { id } = req.params;
+  await User.deleteOne({ id });
+
+  res.status(204).json({
+    status: 'Success',
+  });
+};
+
 module.exports.getAllUsers = async (_, res) => {
   const users = await User.find();
 

@@ -6,6 +6,10 @@ const allUsersQuery = {
       users {
         id
         name
+        age
+        company {
+          name
+        }
       }
     }
   `,

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 interface Props {
   className: String;
@@ -17,6 +17,7 @@ const CreateUser = ({ className, setFormIsOpen }: Props) => {
           name='name'
           id='name'
           placeholder='Jane Doe'
+          maxLength={13}
         />
         <input
           type='text'

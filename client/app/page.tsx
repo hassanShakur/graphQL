@@ -1,17 +1,84 @@
-import { Key } from 'react';
-import client from './../apolloClient';
-import allUsersQuery from '@/queries/getAllUsers';
+// import { Key } from 'react';
+// import client from './../apolloClient';
+// import allUsersQuery from '@/queries/getAllUsers';
+import './app.css'
 
 export default async function Home() {
-  const users: { name: String; id: Key }[] = await client
-    .query(allUsersQuery)
-    .then((res) => res.data.users);
 
   return (
     <main>
-      {users.map((user) => (
-        <li key={user.id}>{user.name}</li>
-      ))}
+      <section className="users">
+        <div className="user">
+          <div className="name">
+            {/* <span>icon</span> */}
+            <span>yuqee chen</span>
+          </div>
+          <div className="info">
+            <span>age: 18</span>
+            <span>netflix</span>
+          </div>
+        </div>
+        <div className="user">
+          <div className="name">
+            {/* <span>icon</span> */}
+            <span>yuqee chen</span>
+          </div>
+          <div className="info">
+            <span>age: 18</span>
+            <span>netflix</span>
+          </div>
+        </div>
+        <div className="user">
+          <div className="name">
+            {/* <span>icon</span> */}
+            <span>yuqee chen</span>
+          </div>
+          <div className="info">
+            <span>age: 18</span>
+            <span>netflix</span>
+          </div>
+        </div>
+        <div className="user">
+          <div className="name">
+            {/* <span>icon</span> */}
+            <span>yuqee chen</span>
+          </div>
+          <div className="info">
+            <span>age: 18</span>
+            <span>netflix</span>
+          </div>
+        </div>
+        <div className="user">
+          <div className="name">
+            {/* <span>icon</span> */}
+            <span>yuqee chen</span>
+          </div>
+          <div className="info">
+            <span>age: 18</span>
+            <span>netflix</span>
+          </div>
+        </div>
+        <div className="user">
+          <div className="name">
+            {/* <span>icon</span> */}
+            <span>yuqee chen</span>
+          </div>
+          <div className="info">
+            <span>age: 18</span>
+            <span>netflix</span>
+          </div>
+        </div>
+        <div className="user">
+          <div className="name">
+            {/* <span>icon</span> */}
+            <span>yuqee chen</span>
+          </div>
+          <div className="info">
+            <span>age: 18</span>
+            <span>netflix</span>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

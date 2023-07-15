@@ -50,7 +50,8 @@
   box-shadow: 2px 2px 2px 2px #37464d;
   transition: 0.2s ease-in;
   transform-origin: 0 0;
-  position: fixed;
+  position: absolute;
+  z-index: 3;
 }
 
 nav {
@@ -58,9 +59,11 @@ nav {
   width: fit-content;
   height: 2rem;
   cursor: pointer;
+  position: relative;
+  z-index: 3;
 }
 
-.menu-close {
+.hide-menu {
   transform: scale(0);
 }
 
@@ -91,6 +94,7 @@ nav {
   padding: 20px;
   width: 350px;
   text-transform: capitalize;
+  transition: 0.2s ease-in;
 }
 
 .user-form h3 {
@@ -111,6 +115,13 @@ form input {
   padding: 7px 10px;
 }
 
+form .buttons {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  gap: 1rem;
+}
+
 form button {
   justify-self: end;
   font-size: 14px;
@@ -118,6 +129,18 @@ form button {
   border: none;
   border-radius: 3px;
   cursor: pointer;
+}
+
+form .cancel {
+  color: rgb(255, 183, 0);
+}
+
+form button:hover {
+  background-color: #414141;
+}
+
+.hide-form {
+  transform: rotateY(270deg);
 }
 
 .backdrop {
@@ -128,4 +151,8 @@ form button {
   width: 100vw;
   backdrop-filter: blur(4px);
   z-index: 2;
+}
+
+.hide-backdrop {
+  z-index: -2;
 }

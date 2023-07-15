@@ -1,17 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-const Menu = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const toggleMenu = () => {
-    setMenuOpen((prevState) => !prevState);
-  };
+interface Props {
+  className: String;
+  setMenuIsOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const Menu = ({ className, setMenuIsOpen }: Props) => {
+  
 
   return (
     <>
-      <nav onClick={toggleMenu}>menu</nav>
-      <section className={`companies ${!menuOpen && 'menu-close'}`}>
+      <nav onClick={() => setMenuIsOpen((prevState) => !prevState)}>
+        menu
+      </nav>
+      <section className={`companies ${className}`}>
         <div className='company'>
           <div className='logo'>Logo</div>
           <div className='info'>

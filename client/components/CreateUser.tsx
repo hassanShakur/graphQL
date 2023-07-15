@@ -1,8 +1,15 @@
-import React from 'react';
+'use client';
 
-const CreateUser = () => {
+import React, { Dispatch, SetStateAction, useState } from 'react';
+
+interface Props {
+  className: String;
+  setFormIsOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const CreateUser = ({ className, setFormIsOpen }: Props) => {
   return (
-    <div className='user-form'>
+    <div className={`user-form ${className}`}>
       <h3>add new user</h3>
       <form>
         <input
@@ -17,7 +24,16 @@ const CreateUser = () => {
           id='company'
           placeholder='Netflix'
         />
-        <button type='submit'>Submit</button>
+        <div className='buttons'>
+          <button type='submit'>Submit</button>
+          <button
+            type='button'
+            className='cancel'
+            onClick={() => setFormIsOpen(false)}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );

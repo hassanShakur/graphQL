@@ -3,14 +3,13 @@
 // import allUsersQuery from '@/queries/getAllUsers';
 import { useState } from 'react';
 import './app.css';
-import Menu from '@/components/Menu';
-import CreateUser from '@/components/CreateUser';
+import ModalController from '@/components/ModalController';
 // graphql-users
 
 export default async function Home() {
   return (
     <main>
-      <Menu />
+      <ModalController />
       <section className='users'>
         <div className='user'>
           <div className='name'>
@@ -43,7 +42,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <CreateUser />
     </main>
   );
 }

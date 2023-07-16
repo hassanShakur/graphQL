@@ -5,13 +5,15 @@ import allUsersQuery from '@/queries/getAllUsers';
 import ModalController from '@/components/ModalController';
 // graphql-users
 
+type Users = {
+  name: String;
+  id: Key;
+  age: Number;
+  company: { name: String };
+}[];
+
 export default async function Home() {
-  const users: {
-    name: String;
-    id: Key;
-    age: Number;
-    company: { name: String };
-  }[] = await client
+  const users: Users = await client
     .query(allUsersQuery)
     .then((res) => res.data.users);
 

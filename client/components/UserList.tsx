@@ -1,8 +1,8 @@
-import { MouseEventHandler } from 'react';
+import { Dispatch, MouseEventHandler, SetStateAction } from 'react';
 import { Key } from 'react';
 
 interface Props {
-  onUserClick: MouseEventHandler<HTMLDivElement>;
+  setFormIsOpen: Dispatch<SetStateAction<boolean>>;
   users: {
     name: String;
     id: Key;
@@ -13,21 +13,28 @@ interface Props {
   }[];
 }
 
-const UserList = ({ onUserClick, users }: Props) => {
+const UserList = ({ users, setFormIsOpen }: Props) => {
   return (
     <section className='users'>
-      {users.map((user) => (
-        <div key={user.id} className='user' onClick={onUserClick}>
+      {users.map(({ id, name, age, company }) => (
+        <div key={id} className='user'>
           <div className='name'>
             <span></span>
-            <span>{user.name}</span>
+            <span>{name}</span>
           </div>
           <div className='info'>
-            <span>age {user.age.toString()}</span>
-            <span>{user.company.name}</span>
+            <span>age {age.toString()}</span>
+            <span>{company.name}</span>
           </div>
         </div>
       ))}
+      <button
+        className='new-user-btn'
+        type='button'
+        onClick={() => setFormIsOpen(() => true)}
+      >
+        new
+      </button>
     </section>
   );
 };

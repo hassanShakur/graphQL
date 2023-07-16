@@ -26,7 +26,7 @@
 
 .user:hover {
   background-color: #0e0e0e;
-  cursor: pointer;
+  cursor: text;
   box-shadow: 1px 1px 7px 3px #0557d16f;
 }
 
@@ -91,7 +91,7 @@ nav {
 
 .user-form {
   position: absolute;
-  bottom: 30%;
+  bottom: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
   height: fit-content;

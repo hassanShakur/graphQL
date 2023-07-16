@@ -1,5 +1,5 @@
 'use client';
-import { Fragment, useState } from 'react';
+import { Fragment, MouseEventHandler, useState } from 'react';
 import Menu from './Menu';
 import { Key } from 'react';
 import CreateUser from './CreateUser';
@@ -42,10 +42,7 @@ const ModalController = ({ users }: Props) => {
         className={!formIsOpen ? 'hide-form' : ''}
         setFormIsOpen={setFormIsOpen}
       />
-      <UserList
-        onUserClick={() => setFormIsOpen(() => true)}
-        users={users}
-      />
+      <UserList users={users} setFormIsOpen={setFormIsOpen} />
     </Fragment>
   );
 };

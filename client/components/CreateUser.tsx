@@ -31,7 +31,7 @@ const CreateUser = ({
   const [ageInput, setAgeInput] = useState(0);
   const [companyInput, setCompanyInput] = useState('1');
 
-  const [invokeUserMutate] = useMutation(createUser, {
+  const [invokeCreateUser] = useMutation(createUser, {
     client,
     variables: {
       name: nameInput,
@@ -46,7 +46,7 @@ const CreateUser = ({
       return setNotification(() => 'Invalid input!');
     }
 
-    invokeUserMutate();
+    invokeCreateUser();
     setNotification(() => 'User created successfuly!');
     setFormIsOpen(() => false);
   };

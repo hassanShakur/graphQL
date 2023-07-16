@@ -1,5 +1,6 @@
 import { Dispatch, MouseEventHandler, SetStateAction } from 'react';
 import { Key } from 'react';
+import DeleteUserBtn from './DeleteUserBtn';
 
 interface Props {
   setFormIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -26,7 +27,7 @@ const UserList = ({ users, setFormIsOpen }: Props) => {
             <span>age {age.toString()}</span>
             <span>{company.name}</span>
           </div>
-          <div className="delete-user">del</div>
+          <DeleteUserBtn id={id}/>
         </div>
       ))}
       <button

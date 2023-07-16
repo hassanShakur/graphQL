@@ -4,6 +4,7 @@ import Menu from './Menu';
 import { Key } from 'react';
 import CreateUser from './CreateUser';
 import UserList from './UserList';
+import Notification from './Notification';
 
 interface Props {
   users: {
@@ -19,6 +20,7 @@ interface Props {
 const ModalController = ({ users }: Props) => {
   const [formIsOpen, setFormIsOpen] = useState(false);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [notification, setNotification] = useState('')
 
   const toggleModals = () => {
     setFormIsOpen(() => false);
@@ -41,8 +43,10 @@ const ModalController = ({ users }: Props) => {
       <CreateUser
         className={!formIsOpen ? 'hide-form' : ''}
         setFormIsOpen={setFormIsOpen}
+        setNotification={setNotification}
       />
       <UserList users={users} setFormIsOpen={setFormIsOpen} />
+      <Notification message={notification} />
     </Fragment>
   );
 };

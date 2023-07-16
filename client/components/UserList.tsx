@@ -26,6 +26,7 @@ const UserList = ({ users, setFormIsOpen }: Props) => {
             <span>age {age.toString()}</span>
             <span>{company.name}</span>
           </div>
+          <div className="delete-user">del</div>
         </div>
       ))}
       <button

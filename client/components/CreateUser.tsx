@@ -14,6 +14,7 @@ import React, {
 interface Props {
   className: String;
   setFormIsOpen: Dispatch<SetStateAction<boolean>>;
+  setNotification: Dispatch<SetStateAction<string>>;
 }
 
 type User = {
@@ -21,37 +22,33 @@ type User = {
   id: Key;
 }[];
 
-type MapCompany = {
-  amazon: String;
-  apple: String;
-  google: String;
-  netflix: String;
-};
-
-const mapCompany: MapCompany = {
-  amazon: '1',
-  apple: '2',
-  google: '3',
-  netflix: '4',
-};
-
-const CreateUser = ({ className, setFormIsOpen }: Props) => {
+const CreateUser = ({
+  className,
+  setFormIsOpen,
+  setNotification,
+}: Props) => {
   const [nameInput, setNameInput] = useState('');
   const [ageInput, setAgeInput] = useState(0);
-  const [companyInput, setCompanyInput] = useState('netflix');
+  const [companyInput, setCompanyInput] = useState('1');
 
   const [invokeUserMutate] = useMutation(createUser, {
     client,
     variables: {
       name: nameInput,
       age: ageInput,
-      companyId: '1',
+      companyId: companyInput,
     },
   });
 
   const formSubmitHandler = async (e: FormEvent) => {
     e.preventDefault();
+    if (nameInput.trim() === '' || ageInput === +'') {
+      return setNotification(() => 'Invalid input!');
+    }
+
     invokeUserMutate();
+    setNotification(() => 'User created successfuly!');
+    setFormIsOpen(() => false);
   };
 
   return (
@@ -68,21 +65,26 @@ const CreateUser = ({ className, setFormIsOpen }: Props) => {
           onChange={(e) => setNameInput(() => e.target.value)}
         />
         <input
-          type='text'
-          name='company'
-          id='company'
-          placeholder='Netflix'
-          value={companyInput}
-          onChange={(e) => setCompanyInput(() => e.target.value)}
-        />
-        <input
-          type='text'
+          type='string'
           name='age'
           id='age'
           placeholder='Age'
-          value={ageInput}
+          value={ageInput || ''}
+          min={12}
+          max={180}
           onChange={(e) => setAgeInput(() => +e.target.value)}
         />
+        <select
+          name='company'
+          id='company'
+          value={companyInput}
+          onChange={(e) => setCompanyInput(() => e.target.value)}
+        >
+          <option value='1'>Amazon</option>
+          <option value='2'>Apple</option>
+          <option value='3'>Google</option>
+          <option value='4'>Netflix</option>
+        </select>
         <div className='buttons'>
           <button type='submit'>Submit</button>
           <button

@@ -1,31 +1,43 @@
 'use client';
-import { Fragment, MouseEventHandler, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import Menu from './Menu';
 import { Key } from 'react';
 import CreateUser from './CreateUser';
 import UserList from './UserList';
 import Notification from './Notification';
+import client from './../apolloClient';
+import allUsersQuery from '@/queries/getAllUsers';
 
-interface Props {
-  users: {
-    name: String;
-    id: Key;
-    age: Number;
-    company: {
-      name: String;
-    };
-  }[];
-}
+type Users = {
+  name: String;
+  id: Key;
+  age: Number;
+  company: { name: String };
+}[];
 
-const ModalController = ({ users }: Props) => {
+const ModalController = () => {
+  const users: Users = [];
   const [formIsOpen, setFormIsOpen] = useState(false);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState('');
+  const [allUsers, setAllUsers] = useState(users);
 
   const toggleModals = () => {
     setFormIsOpen(() => false);
     setMenuIsOpen(() => false);
   };
+
+  const fetchUsers = useCallback(async () => {
+    const newUsers: Users = await client
+      .query(allUsersQuery)
+      .then((res) => res.data.users);
+    setAllUsers(newUsers);
+  }, []);
+
+  useEffect(() => {
+    fetchUsers();
+    console.log('called');
+  }, [fetchUsers]);
 
   return (
     <Fragment>
@@ -45,7 +57,7 @@ const ModalController = ({ users }: Props) => {
         setFormIsOpen={setFormIsOpen}
         setNotification={setNotification}
       />
-      <UserList users={users} setFormIsOpen={setFormIsOpen} />
+      <UserList users={allUsers} setFormIsOpen={setFormIsOpen} />
       <Notification message={notification} />
     </Fragment>
   );

@@ -44,18 +44,27 @@ main {
 }
 
 .name {
-  font-size: 1rem;
-  height: 30%;
+  font-size: 0.9rem;
+  height: 25%;
   letter-spacing: 1px;
   border-bottom: 1px solid #bbe5f3;
   color: #09addf;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .user .info {
   font-size: 0.8rem;
   display: grid;
   gap: 15px;
-  margin-top: 1.2rem;
+  margin-top: 1.3rem;
+}
+
+.info span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .delete-user {
@@ -201,6 +210,11 @@ form button:hover {
   font-size: 12px;
   border-radius: 4px;
   transition: 0.2s ease-in;
+}
+
+.icon {
+  font-size: 15px;
+  color: inherit;
 }
 
 .hide-form {

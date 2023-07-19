@@ -3,6 +3,7 @@
 import { useMutation } from '@apollo/client';
 import createUser from '@/queries/createUser';
 import client from '@/apolloClient';
+import allUsersQuery from '@/queries/getAllUsers';
 import React, {
   Dispatch,
   FormEvent,
@@ -38,6 +39,7 @@ const CreateUser = ({
       age: ageInput,
       companyId: companyInput,
     },
+    refetchQueries: [{ query: allUsersQuery.query }],
   });
 
   const formSubmitHandler = async (e: FormEvent) => {

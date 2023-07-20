@@ -1,15 +1,8 @@
 'use client';
 
-import { Dispatch, SetStateAction, useState } from 'react';
+import { MenuProps } from '@/helpers/propTypes';
 
-interface Props {
-  className: String;
-  setMenuIsOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-const Menu = ({ className, setMenuIsOpen }: Props) => {
-  
-
+const Menu = ({ className, setMenuIsOpen }: MenuProps) => {
   return (
     <>
       <nav onClick={() => setMenuIsOpen((prevState) => !prevState)}>

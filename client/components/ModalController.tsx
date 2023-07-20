@@ -1,22 +1,16 @@
 'use client';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import Menu from './Menu';
-import { Key } from 'react';
 import CreateUser from './CreateUser';
 import UserList from './UserList';
 import Notification from './Notification';
 import client from './../apolloClient';
 import allUsersQuery from '@/queries/getAllUsers';
 
-type Users = {
-  name: String;
-  id: Key;
-  age: Number;
-  company: { name: String };
-}[];
+import { UsersType } from '@/helpers/allTypes';
 
 const ModalController = () => {
-  const users: Users = [];
+  const users: UsersType = [];
   const [formIsOpen, setFormIsOpen] = useState(false);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [notification, setNotification] = useState('');
@@ -28,7 +22,7 @@ const ModalController = () => {
   };
 
   const fetchUsers = useCallback(async () => {
-    const newUsers: Users = await client
+    const newUsers: UsersType = await client
       .query(allUsersQuery)
       .then((res) => res.data.users);
     setAllUsers(newUsers);
@@ -56,8 +50,13 @@ const ModalController = () => {
         className={!formIsOpen ? 'hide-form' : ''}
         setFormIsOpen={setFormIsOpen}
         setNotification={setNotification}
+        setAllUsers={setAllUsers}
       />
-      <UserList users={allUsers} setFormIsOpen={setFormIsOpen} />
+      <UserList
+        users={allUsers}
+        setFormIsOpen={setFormIsOpen}
+        setAllUsers={setAllUsers}
+      />
       <Notification message={notification} />
     </Fragment>
   );

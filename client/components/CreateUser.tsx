@@ -5,42 +5,48 @@ import createUser from '@/queries/createUser';
 import client from '@/apolloClient';
 import allUsersQuery from '@/queries/getAllUsers';
 import React, {
-  Dispatch,
   FormEvent,
-  Key,
-  SetStateAction,
+  useEffect,
   useState,
 } from 'react';
 
-interface Props {
-  className: String;
-  setFormIsOpen: Dispatch<SetStateAction<boolean>>;
-  setNotification: Dispatch<SetStateAction<string>>;
-}
-
-type User = {
-  name: String;
-  id: Key;
-}[];
+import { CreateUserProps } from '@/helpers/propTypes';
 
 const CreateUser = ({
   className,
   setFormIsOpen,
   setNotification,
-}: Props) => {
+  setAllUsers,
+}: CreateUserProps) => {
   const [nameInput, setNameInput] = useState('');
   const [ageInput, setAgeInput] = useState(0);
   const [companyInput, setCompanyInput] = useState('1');
 
+  const newUser = {
+    name: nameInput,
+    age: ageInput,
+    companyId: companyInput,
+  };
+
   const [invokeCreateUser] = useMutation(createUser, {
     client,
-    variables: {
-      name: nameInput,
-      age: ageInput,
-      companyId: companyInput,
-    },
+    variables: newUser,
     refetchQueries: [{ query: allUsersQuery.query }],
   });
+
+  useEffect(() => {
+    let newUsers: any = [];
+    async function fetcher() {
+      newUsers = await client
+        .query(allUsersQuery)
+        .then((res) => res.data.users);
+
+      console.log(newUsers);
+    }
+    fetcher();
+
+    setAllUsers(() => newUsers);
+  }, [setAllUsers]);
 
   const formSubmitHandler = async (e: FormEvent) => {
     e.preventDefault();
@@ -49,6 +55,11 @@ const CreateUser = ({
     }
 
     invokeCreateUser();
+
+    setAllUsers((prev: any) => [
+      ...prev,
+      { ...newUser, company: { name: 'Netflix' } },
+    ]);
     setNotification(() => 'User created successfuly!');
     setFormIsOpen(() => false);
   };

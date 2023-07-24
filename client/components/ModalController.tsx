@@ -8,6 +8,7 @@ import client from './../apolloClient';
 import allUsersQuery from '@/queries/getAllUsers';
 
 import { UsersType } from '@/helpers/allTypes';
+import ClientOnly from './ClientOnly';
 
 const ModalController = () => {
   const users: UsersType = [];
@@ -21,17 +22,17 @@ const ModalController = () => {
     setMenuIsOpen(() => false);
   };
 
-  const fetchUsers = useCallback(async () => {
-    const newUsers: UsersType = await client
-      .query(allUsersQuery)
-      .then((res) => res.data.users);
-    setAllUsers(newUsers);
-  }, []);
+  // const fetchUsers = useCallback(async () => {
+  //   const newUsers: UsersType = await client
+  //     .query(allUsersQuery)
+  //     .then((res) => res.data.users);
+  //   setAllUsers(newUsers);
+  // }, []);
 
-  useEffect(() => {
-    fetchUsers();
-    console.log('called');
-  }, [fetchUsers]);
+  // useEffect(() => {
+  //   fetchUsers();
+  //   console.log('called');
+  // }, [fetchUsers]);
 
   return (
     <Fragment>
@@ -52,11 +53,13 @@ const ModalController = () => {
         setNotification={setNotification}
         setAllUsers={setAllUsers}
       />
-      <UserList
-        users={allUsers}
-        setFormIsOpen={setFormIsOpen}
-        setAllUsers={setAllUsers}
-      />
+      <ClientOnly>
+        <UserList
+          // users={allUsers}
+          // setFormIsOpen={setFormIsOpen}
+          // setAllUsers={setAllUsers}
+        />
+      </ClientOnly>
       <Notification message={notification} />
     </Fragment>
   );

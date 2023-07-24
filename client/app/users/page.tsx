@@ -1,17 +1,14 @@
-// import { Key } from 'react';
-// import client from './../apolloClient';
-// import allUsersQuery from '@/queries/getAllUsers';
+import '../app.css';
+import client from '../../apolloClient';
+import { ApolloProvider } from '@apollo/client';
+// graphql-users
 
-// export default async function Home() {
-//   const users: { name: String; id: Key }[] = await client
-//     .query(allUsersQuery)
-//     .then((res) => res.data.users);
-
-//   return (
-//     <main>
-//       {users.map((user) => (
-//         <li key={user.id}>{user.name}</li>
-//       ))}
-//     </main>
-//   );
-// }
+export default async function Home() {
+  return (
+    <main>
+      <ApolloProvider client={client}>
+        <div>Hello users</div>
+      </ApolloProvider>
+    </main>
+  );
+}

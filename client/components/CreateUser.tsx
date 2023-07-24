@@ -41,7 +41,6 @@ const CreateUser = ({
         .query(allUsersQuery)
         .then((res) => res.data.users);
 
-      console.log(newUsers);
     }
     fetcher();
 

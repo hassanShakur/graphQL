@@ -1,12 +1,13 @@
 'use client';
 
 import { MenuProps } from '@/helpers/propTypes';
+import { AiOutlineMenu } from 'react-icons/ai';
 
 const Menu = ({ className, setMenuIsOpen }: MenuProps) => {
   return (
     <>
       <nav onClick={() => setMenuIsOpen((prevState) => !prevState)}>
-        menu
+        <AiOutlineMenu fontSize={32} />
       </nav>
       <section className={`companies ${className}`}>
         <div className='company'>
